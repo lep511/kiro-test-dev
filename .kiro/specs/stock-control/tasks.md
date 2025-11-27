@@ -33,7 +33,7 @@
     - **Property 3: Product persistence round-trip**
     - **Validates: Requirements 1.4, 8.1, 8.4**
   
-  - [ ]* 2.3 Write property test for storage serialization round-trip
+  - [x] 2.3 Write property test for storage serialization round-trip
     - **Property 25: Storage serialization round-trip**
     - **Validates: Requirements 8.4**
 
