@@ -11,15 +11,25 @@
   - Create module structure: `models`, `storage`, `service`, `cli`, `errors`
   - _Requirements: All_
 
-- [ ] 2. Implement core data models
-  - [ ] 2.1 Create Product and Transaction structs with serde derives
+- [x] 2. Implement core data models
+
+
+
+  - [x] 2.1 Create Product and Transaction structs with serde derives
+
+
     - Define `Product` struct with id, sku, name, description, quantity, reorder_point
     - Define `Transaction` struct with id, product_sku, transaction_type, quantity, timestamp, notes
     - Define `TransactionType` enum (Addition, Removal)
     - Add serde Serialize/Deserialize derives
     - _Requirements: 1.1, 3.3, 4.3_
   
-  - [ ]* 2.2 Write property test for product serialization round-trip
+  - [ ] 2.2 Write property test for product serialization round-trip
+
+
+
+
+
     - **Property 3: Product persistence round-trip**
     - **Validates: Requirements 1.4, 8.1, 8.4**
   
