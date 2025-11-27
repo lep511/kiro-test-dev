@@ -24,7 +24,7 @@
     - Add serde Serialize/Deserialize derives
     - _Requirements: 1.1, 3.3, 4.3_
   
-  - [ ] 2.2 Write property test for product serialization round-trip
+  - [x] 2.2 Write property test for product serialization round-trip
 
 
 
