@@ -37,8 +37,8 @@
     - **Property 25: Storage serialization round-trip**
     - **Validates: Requirements 8.4**
 
-- [ ] 3. Implement error types
-  - [ ] 3.1 Define ServiceError and StorageError enums
+- [x] 3. Implement error types
+  - [x] 3.1 Define ServiceError and StorageError enums
     - Create `ServiceError` with variants: ProductNotFound, DuplicateSKU, InvalidInput, InsufficientStock, StorageError
     - Create `StorageError` with variants: ReadError, WriteError, ParseError, FileNotFound
     - Implement Display and Error traits
