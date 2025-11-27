@@ -44,8 +44,8 @@
     - Implement Display and Error traits
     - _Requirements: 1.2, 2.2, 3.2, 3.5, 4.2, 7.2, 8.3, 8.5_
 
-- [ ] 4. Implement storage layer
-  - [ ] 4.1 Create Storage trait and JsonStorage implementation
+- [-] 4. Implement storage layer
+  - [x] 4.1 Create Storage trait and JsonStorage implementation
     - Define `Storage` trait with save/load methods for products and transactions
     - Implement `JsonStorage` struct with file paths
     - Implement save_products, load_products, save_transactions, load_transactions
@@ -64,13 +64,13 @@
     - **Property 26: Graceful handling of invalid storage data**
     - **Validates: Requirements 8.5**
 
-- [ ] 5. Implement inventory service - product management
-  - [ ] 5.1 Create InventoryService struct with HashMap and storage
+- [x] 5. Implement inventory service - product management
+  - [x] 5.1 Create InventoryService struct with HashMap and storage
     - Define `InventoryService` with products HashMap, transactions Vec, storage Box
     - Implement `new()` constructor that loads data from storage
     - _Requirements: 8.1_
   
-  - [ ] 5.2 Implement add_product method
+  - [x] 5.2 Implement add_product method
     - Validate SKU is non-empty
     - Validate quantity and reorder_point are non-negative
     - Check for duplicate SKU
@@ -87,7 +87,7 @@
     - **Property 2: Duplicate SKU rejection**
     - **Validates: Requirements 1.2**
   
-  - [ ] 5.5 Implement update_product method
+  - [x] 5.5 Implement update_product method
     - Validate product exists
     - Validate updated fields (non-empty name if provided)
     - Update specified fields only
@@ -106,7 +106,7 @@
     - **Property 6: Product updates preserve transaction history**
     - **Validates: Requirements 2.5**
   
-  - [ ] 5.9 Implement get_product method
+  - [x] 5.9 Implement get_product method
     - Look up product by SKU in HashMap
     - Return reference or ProductNotFound error
     - _Requirements: 5.1_
@@ -115,7 +115,7 @@
     - **Property 7: Product retrieval returns complete data**
     - **Validates: Requirements 5.1, 5.4**
   
-  - [ ] 5.11 Implement list_products method
+  - [x] 5.11 Implement list_products method
     - Return vector of references to all products
     - _Requirements: 5.2_
   
@@ -123,7 +123,7 @@
     - **Property 8: List all products returns complete set**
     - **Validates: Requirements 5.2**
   
-  - [ ] 5.13 Implement delete_product method
+  - [x] 5.13 Implement delete_product method
     - Validate product exists
     - Remove product from HashMap
     - Remove all associated transactions
