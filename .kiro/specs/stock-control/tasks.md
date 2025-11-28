@@ -142,11 +142,11 @@
     - **Property 11: Products with stock can be deleted**
     - **Validates: Requirements 7.5**
 
-- [ ] 6. Checkpoint - Ensure all tests pass
+- [x] 6. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Implement inventory service - stock transactions
-  - [ ] 7.1 Implement add_stock method
+- [x] 7. Implement inventory service - stock transactions
+  - [x] 7.1 Implement add_stock method
     - Validate product exists
     - Validate quantity is positive
     - Increase product quantity
@@ -172,7 +172,7 @@
     - **Property 15: Stock addition to non-existent product fails**
     - **Validates: Requirements 3.5**
   
-  - [ ] 7.6 Implement remove_stock method
+  - [x] 7.6 Implement remove_stock method
     - Validate product exists
     - Validate quantity is positive
     - Validate sufficient stock available
@@ -199,8 +199,8 @@
     - **Property 19: Stock transaction persistence round-trip**
     - **Validates: Requirements 3.4, 4.4, 8.2**
 
-- [ ] 8. Implement inventory service - queries and filtering
-  - [ ] 8.1 Implement list_low_stock method
+- [x] 8. Implement inventory service - queries and filtering
+  - [x] 8.1 Implement list_low_stock method
     - Filter products where quantity <= reorder_point
     - Return vector of references
     - _Requirements: 4.5, 5.3_
@@ -213,7 +213,7 @@
     - **Property 21: Low-stock filter returns correct products**
     - **Validates: Requirements 5.3**
   
-  - [ ] 8.4 Implement get_transactions method
+  - [x] 8.4 Implement get_transactions method
     - Filter transactions by product_sku
     - Sort by timestamp ascending
     - Return vector of references
@@ -227,7 +227,7 @@
     - **Property 23: Transaction records contain complete data**
     - **Validates: Requirements 6.2**
   
-  - [ ] 8.7 Implement get_transactions_in_range method
+  - [x] 8.7 Implement get_transactions_in_range method
     - Filter transactions by product_sku and date range
     - Sort by timestamp ascending
     - Return vector of references
@@ -237,7 +237,7 @@
     - **Property 24: Date range filtering returns correct transactions**
     - **Validates: Requirements 6.3**
 
-- [ ] 9. Checkpoint - Ensure all tests pass
+- [x] 9. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 10. Implement CLI interface

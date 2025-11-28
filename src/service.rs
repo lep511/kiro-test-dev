@@ -1,10 +1,11 @@
 // Business logic and inventory operations
 
 use std::collections::HashMap;
+use chrono::{DateTime, Utc};
 use uuid::Uuid;
 
 use crate::errors::ServiceError;
-use crate::models::{Product, Transaction};
+use crate::models::{Product, Transaction, TransactionType};
 use crate::storage::Storage;
 
 /// Inventory service that manages products and transactions
@@ -189,5 +190,161 @@ impl InventoryService {
     fn persist_transactions(&self) -> Result<(), ServiceError> {
         self.storage.save_transactions(&self.transactions)?;
         Ok(())
+    }
+
+    /// Add stock to an existing product
+    /// 
+    /// # Requirements
+    /// - 3.1: Increase product's stock level by the specified amount
+    /// - 3.2: Reject negative quantity
+    /// - 3.3: Create transaction record with timestamp, type, quantity, and notes
+    /// - 3.4: Persist both updated stock level and transaction record
+    /// - 3.5: Return error for non-existent product
+    pub fn add_stock(
+        &mut self,
+        sku: &str,
+        quantity: u32,
+        notes: Option<String>,
+    ) -> Result<(), ServiceError> {
+        // Validate quantity is positive (non-zero)
+        if quantity == 0 {
+            return Err(ServiceError::InvalidInput("Quantity must be positive".to_string()));
+        }
+
+        // Validate product exists
+        let product = self.products.get_mut(sku)
+            .ok_or_else(|| ServiceError::ProductNotFound(sku.to_string()))?;
+
+        // Increase product quantity
+        product.quantity += quantity;
+
+        // Create transaction record
+        let transaction = Transaction {
+            id: Uuid::new_v4().to_string(),
+            product_sku: sku.to_string(),
+            transaction_type: TransactionType::Addition,
+            quantity,
+            timestamp: Utc::now(),
+            notes,
+        };
+
+        // Add transaction to vector
+        self.transactions.push(transaction);
+
+        // Persist both products and transactions
+        self.persist_products()?;
+        self.persist_transactions()?;
+
+        Ok(())
+    }
+
+    /// Remove stock from an existing product
+    /// 
+    /// # Requirements
+    /// - 4.1: Decrease product's stock level by the specified amount
+    /// - 4.2: Reject removal exceeding available quantity
+    /// - 4.3: Create transaction record with timestamp, type, quantity, and notes
+    /// - 4.4: Persist both updated stock level and transaction record
+    pub fn remove_stock(
+        &mut self,
+        sku: &str,
+        quantity: u32,
+        notes: Option<String>,
+    ) -> Result<(), ServiceError> {
+        // Validate quantity is positive (non-zero)
+        if quantity == 0 {
+            return Err(ServiceError::InvalidInput("Quantity must be positive".to_string()));
+        }
+
+        // Validate product exists and get current quantity
+        let product = self.products.get(sku)
+            .ok_or_else(|| ServiceError::ProductNotFound(sku.to_string()))?;
+
+        // Validate sufficient stock available
+        if quantity > product.quantity {
+            return Err(ServiceError::InsufficientStock {
+                sku: sku.to_string(),
+                requested: quantity,
+                available: product.quantity,
+            });
+        }
+
+        // Now get mutable reference and decrease quantity
+        let product = self.products.get_mut(sku).unwrap();
+        product.quantity -= quantity;
+
+        // Create transaction record
+        let transaction = Transaction {
+            id: Uuid::new_v4().to_string(),
+            product_sku: sku.to_string(),
+            transaction_type: TransactionType::Removal,
+            quantity,
+            timestamp: Utc::now(),
+            notes,
+        };
+
+        // Add transaction to vector
+        self.transactions.push(transaction);
+
+        // Persist both products and transactions
+        self.persist_products()?;
+        self.persist_transactions()?;
+
+        Ok(())
+    }
+
+    /// List all products with low stock (quantity at or below reorder point)
+    /// 
+    /// # Requirements
+    /// - 4.5: Flag products for reorder when stock falls below reorder point
+    /// - 5.3: Return all products where current stock level is at or below reorder point
+    pub fn list_low_stock(&self) -> Vec<&Product> {
+        self.products
+            .values()
+            .filter(|p| p.quantity <= p.reorder_point)
+            .collect()
+    }
+
+    /// Get transaction history for a product, ordered by timestamp
+    /// 
+    /// # Requirements
+    /// - 6.1: Return all transactions for a product ordered by timestamp
+    /// - 6.2: Include transaction type, quantity, timestamp, and notes
+    /// - 6.5: Preserve chronological order of all stock movements
+    pub fn get_transactions(&self, sku: &str) -> Vec<&Transaction> {
+        let mut transactions: Vec<&Transaction> = self.transactions
+            .iter()
+            .filter(|t| t.product_sku == sku)
+            .collect();
+        
+        // Sort by timestamp ascending (earliest to latest)
+        transactions.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));
+        
+        transactions
+    }
+
+    /// Get transaction history for a product within a date range, ordered by timestamp
+    /// 
+    /// # Requirements
+    /// - 6.3: Return only transactions within the specified period
+    pub fn get_transactions_in_range(
+        &self,
+        sku: &str,
+        start: DateTime<Utc>,
+        end: DateTime<Utc>,
+    ) -> Vec<&Transaction> {
+        let mut transactions: Vec<&Transaction> = self.transactions
+            .iter()
+            .filter(|t| {
+                t.product_sku == sku 
+                    && t.timestamp >= start 
+                    && t.timestamp <= end
+            })
+            .collect();
+        
+        // Sort by timestamp ascending (earliest to latest)
+        transactions.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));
+        
+        transactions
     }
 }
