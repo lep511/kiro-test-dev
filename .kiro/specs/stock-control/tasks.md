@@ -240,24 +240,24 @@
 - [x] 9. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 10. Implement CLI interface
-  - [ ] 10.1 Create CLI module with command enum
+- [x] 10. Implement CLI interface
+  - [x] 10.1 Create CLI module with command enum
     - Define `Command` enum with variants for all operations
     - Each variant contains necessary parameters
     - _Requirements: All_
   
-  - [ ] 10.2 Implement command parsing from args
+  - [x] 10.2 Implement command parsing from args
     - Parse command-line arguments into Command enum
     - Handle invalid commands with helpful error messages
     - _Requirements: All_
   
-  - [ ] 10.3 Implement command execution
+  - [x] 10.3 Implement command execution
     - Match on Command enum and call appropriate service methods
     - Format and display results
     - Display user-friendly error messages
     - _Requirements: All_
   
-  - [ ] 10.4 Implement main function
+  - [x] 10.4 Implement main function
     - Initialize InventoryService with JsonStorage
     - Parse command from args
     - Execute command

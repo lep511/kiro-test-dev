@@ -29,6 +29,15 @@ pub enum TransactionType {
     Removal,
 }
 
+impl std::fmt::Display for TransactionType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            TransactionType::Addition => write!(f, "Addition"),
+            TransactionType::Removal => write!(f, "Removal"),
+        }
+    }
+}
+
 /// Represents a stock transaction (addition or removal)
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Transaction {
